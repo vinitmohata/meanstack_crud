@@ -1,0 +1,16 @@
+{
+  "name": "nodecrudwithangularjs",
+  "version": "1.0.0",
+  "description": "CRUD MEAN application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vinit Mohata",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.1",
+    "mongoose": "^4.3.0"
+  }
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div ng-show="created" class="alert alert-success">
+        <strong>User Created!</strong>
+    </div>
+    <div ng-show="deleted" class="alert alert-danger">
+        <strong>User Deleted!</strong>
+    </div>
+    <div ng-show="updated" class="alert alert-info">
+        <strong>User Updated!</strong>
+    </div>
+    </br>
+    <div class="col-md-12">
+        <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="name" ng-model="name" />
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary" ng-click="InsertUser()">Insert</button>
+        </div>
+    </div>
+    </br>
+    </br>
+    <div class="col-md-6">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users">
+                    <td>{{user.name}}</td>
+                    <td><button class="btn btn-info" ng-click="Edit(user)">Edit</button></td>
+                    <td><button class="btn btn-danger" ng-click="DeleteUser(user._id)">Delete</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-show="show">
+        <input type="text" placeholder="name" ng-model="name1" />
+        <button class="btn btn-primary" ng-click="UpdateUser()">Update</button>
+    </div>
+
+</body>
+
+</html>
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http,$timeout) {
+  $scope.show=false;
+  $scope.InsertUser=function(){
+  $http.post("/api/users",{'name':$scope.name}).then(function(response) {
+  if(response.data){
+   $scope.created=true;
+   $timeout(function() {
+   $scope.created=false;
+        }, 3000); // 3 seconds
+        $scope.GetUser();
+      }
+  });
+  
+  }
+
+   $scope.GetUser=function(){
+   $http.get("/api/users").then(function(response) {
+     $scope.users=response.data;
+     $scope.show=false;
+   });
+  }
+  $scope.GetUser();
+  $scope.UpdateUser=function(){
+  $http.put("/api/users/"+$scope.id1,{'name':$scope.name1}).then(function(response) {   
+       $scope.updated=true; 
+       $timeout(function() {
+       $scope.updated=false;
+    }, 3000); // 3 seconds
+    $scope.GetUser();
+  });
+  
+  }
+
+   $scope.DeleteUser=function(id){
+   $http.delete("/api/users/"+id).then(function(response) {   
+      $scope.deleted=true;
+    $timeout(function() {
+    $scope.deleted=false; 
+    }, 3000); // 3 seconds
+  $scope.GetUser();
+    
+  });
+  }
+
+$scope.Edit=function(dt){
+  $scope.show=true;
+  $scope.name1=dt.name;
+  $scope.id1=dt._id;
+  }
+  
+});
+</script>
