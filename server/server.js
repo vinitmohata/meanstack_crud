@@ -10,9 +10,9 @@ mongoose.connect('mongodb://localhost:27017/users');
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-var User     = require('./app/models/users');
+var User     = require('./models/users');
 var port = process.env.PORT || 3000;        // set our port
-
+app.use(express.static('public'))
 // ROUTES FOR OUR API
 
 var router = express.Router(); 
@@ -24,7 +24,7 @@ router.use(function(req, res, next) {
 });
 
 router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname+'/app/views/index.html'));
+    res.sendFile(path.join(__dirname+'/../public/index.html'));
 });
 
 router.route('/users')
