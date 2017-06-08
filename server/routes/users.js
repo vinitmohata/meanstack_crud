@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/users');
-var messages = require('../config/messages');
-var log4js = require('log4js');
-var logger = log4js.getLogger();
+var express = require('express'),
+    router = express.Router(),
+    User = require('../models/users'),
+    messages = require('../config/messages'),
+    log4js = require('log4js'),
+    logger = log4js.getLogger(),
+    async = require('async');
+
 
 
 /**
@@ -126,5 +128,64 @@ router.route('/users/:user_id')
             res.status(200).json({ message: 'Successfully deleted' });
         });
     });
+
+//Async function call
+
+router.route('/usersAsync')
+
+    .get(function (req, res) {
+        var arr = [];
+        logger.info(req.method + ', ' + req.url);
+        User.find(function (err, users) {
+            if (err) {
+                logger.error(err);
+                res.status(400).send(err);
+            }
+            if (users.length > 0) {
+                async.eachSeries(users, function iteratee(item, callback) {
+                    User.findOne({ '_id': item._id }, function (err, user) {
+                        arr.push(user);
+                        callback(null, user);
+                    });
+                }, function (err) {
+                    res.status(200).json(arr);
+                });
+            }
+            //res.status(200).json(users);
+        });
+    })
+
+    .post(function (req, res) {
+        var arr = [];
+        async.waterfall(
+            [
+                function (callback) {
+                    User.find(function (err, users) {
+                        arr.push(users);
+                        callback(null, users);
+                    });
+                },
+                function (users, callback) {
+                    User.find(function (err, users) {
+                        arr.push(users);
+                        callback(null, users);
+                    });
+                    //   callback(null, caption);
+                },
+                function (caption, callback) {
+                    User.find(function (err, users) {
+                        arr.push(users);
+                        callback(null, users);
+                    });
+                }
+            ],
+            function (err, caption) {
+                res.json(arr);
+                // Node.js and JavaScript Rock!
+            }
+        );
+    });
+//End Async function call
+
 
 module.exports = router;
