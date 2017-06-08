@@ -24,6 +24,8 @@ var express = require('express'),
      *    HTTP/1.1 400 {message: "Error"}
      *    HTTP/1.1 403 No token provided.
      */
+
+    //http://localhost:3000/api/users
 router.route('/users')
     .post(function (req, res) {
         logger.info(req.method + ', ' + req.url);
@@ -130,7 +132,7 @@ router.route('/users/:user_id')
     });
 
 //Async function call
-
+// http://localhost:3000/api/usersAsync
 router.route('/usersAsync')
 
     .get(function (req, res) {

@@ -25,6 +25,8 @@ var config = require('./../config/config');
      *    HTTP/1.1 403 No token provided.
      *    HTTP/1.1 201 User Created.
      */
+
+//    http://localhost:3000/api/login
 router.route('/login')
     .post(function (req, res) {
         logger.info(req.method + ', ' + req.url);
