@@ -19,7 +19,7 @@ var mongoose = require('mongoose');
 mongoose.connect(config.database);
 //End Database Connection
 
-// configure app to use bodyParser()
+// configure app to use bodyParser() 
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
