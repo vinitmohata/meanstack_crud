@@ -53,21 +53,21 @@ router.route('/users')
      {
        "_id": "5934f9df7ba9ca2a3c115f63",
        "password": "123",
-       "email_id": "vinitmo@sveltoz.com",
+       "email_id": "vinitmo@test.com",
        "name": "Vinit",
        "__v": 0
      },
      {
        "_id": "59353edc0a1fce1accfb18b5",
        "password": "123",
-       "email_id": "yogeshj@sveltoz.com",
+       "email_id": "yogeshj@test.com",
        "name": "Yogesh",
        "__v": 0
      },
      {
        "_id": "593545c60e1cc32cacead8b7",
        "password": "123",
-       "email_id": "yogeshj@sveltoz.com",
+       "email_id": "yogeshj@test.com",
        "name": "Yogesh",
        "__v": 0
      }
